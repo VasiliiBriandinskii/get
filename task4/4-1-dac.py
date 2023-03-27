@@ -10,13 +10,13 @@ dac = [26, 19, 13, 6, 5, 11, 9, 10]
 GPIO.setup(dac, GPIO.OUT)
 try:
    while True:
-       inp = input()
-       inp = int(inp)
-       if inp == "stop" or inp == "out" or inp == "break" or inp == "end" or inp == "q":
+        inp = input()
+        if inp == "stop" or inp == "out" or inp == "break" or inp == "end" or inp == "q":
            break
-       out = dec2bin(int(inp))
-       GPIO.output(dac, out)
-       print(3.3/256*int(inp))
+        inp = int(inp)
+        out = dec2bin(int(inp))
+        GPIO.output(dac, out)
+        print(3.3/256*int(inp))
 except TypeError:
     print("По-арабски пишите")
 except ValueError:
