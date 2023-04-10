@@ -13,17 +13,26 @@ def num2dac(dac, value):
     GPIO.output(dac, signal)
     return signal
 
-def adc(comp, dac):
-    value = 128
-    voltage = value / 256 * 3.3
+def adc(comp, dac, value = 128, i = 7):
+    signal = num2dac(dac, value)
+    time.sleep(0.005)
     compvalue = GPIO.input(comp)
-    num2dac(dac, k)
+    
     if compvalue == 0:
-        value /= 2
-    if compvalue == 0:
-        print("ADC value = {:^3} -> {}, input voltage = {:.2f}".format(value, signal, voltage))
-        break
-    time.sleep(0.01)
+        i -= 1
+        voltage = value / 256 * 3.3
+        print("ADC value = {:^3} -> {}, input voltage = {:.2f}".format(value, signal, voltage), i)
+        if i == -1:
+            return voltage
+        adc(comp, dac, value - 2**(i+1) + 2**(i), i)
+    else:
+        i -= 1
+        voltage = value / 256 * 3.3
+        print("ADC value = {:^3} -> {}, input voltage = {:.2f}".format(value, signal, voltage), i)
+        if i == -1:
+            return voltage
+        adc(comp, dac, value+(2**i), i)
+
 
 
 dac = [26, 19, 13, 6, 5, 11, 9, 10]
@@ -36,7 +45,8 @@ GPIO.setup(comp, GPIO.IN)
 
 try:
     while True:
-        adc(comp, dac)
+        print(adc(comp, dac))
         print("-")
+        time.sleep(12)
 finally:
     GPIO.cleanup()

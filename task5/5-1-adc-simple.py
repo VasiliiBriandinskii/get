@@ -17,7 +17,7 @@ def adc(comp, dac):
     for value in range(256):
         signal = num2dac(dac, value)
         voltage = value / 256 * 3.3
-        time.sleep(0.01)
+        time.sleep(0.005)
         compvalue = GPIO.input(comp)
         if compvalue == 0:
             print("ADC value = {:^3} -> {}, input voltage = {:.2f}".format(value, signal, voltage))
