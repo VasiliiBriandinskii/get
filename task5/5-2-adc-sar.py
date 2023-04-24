@@ -47,6 +47,6 @@ try:
     while True:
         print(adc(comp, dac))
         print("-")
-        time.sleep(12)
+        time.sleep(0.1)
 finally:
     GPIO.cleanup()
